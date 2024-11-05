@@ -1,25 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from "react";
+import Hero from "./components/Hero/Hero";
+import Navbar from "./components/Navbar/Navbar";
+import AOS from "aos";
+import "aos/dist/aos.css";
+import OrderPopup from "./components/OrderPopup/OrderPopup.js";
 
-function App() {
+const App = () => {
+  const [orderPopup, setOrderPopup] = useState(false);
+
+  const handleOrderPopup = () => {
+    setOrderPopup(!orderPopup);
+  };
+
+  React.useEffect(() => {
+    AOS.init({
+      offset: 100,
+      duration: 500,
+      easing: "ease-in-sine",
+      delay: 100,
+    });
+    AOS.refresh();
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="bg-white dark:bg-gray-900 dark:text-white duration-200 overflow-x-hidden">
+      <Navbar handleOrderPopup={handleOrderPopup} />
+      <Hero handleOrderPopup={handleOrderPopup} />
+      <OrderPopup orderPopup={orderPopup} setOrderPopup={setOrderPopup} />
     </div>
   );
-}
+};
 
 export default App;
